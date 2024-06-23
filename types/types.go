@@ -10,6 +10,7 @@ type UserStore interface {
 
 type ProductStore interface {
 	GetProducts() ([]Product, error)
+	GetProductsByIDs(ps []int) ([]Product, error)
 	CreateProduct(Product) error
 }
 
@@ -19,31 +20,31 @@ type OrderStore interface {
 }
 
 type Order struct {
-	ID			int			`json:"id"`
-	UserID		int			`json:"userID"`
-	Total		float64		`json:"total"`
-	Status		string		`json:"status"`
-	Address		string		`json:"address"`
-	createdAt	time.Time	`json:"createdAt"`
+	ID        int       `json:"id"`
+	UserID    int       `json:"userID"`
+	Total     float64   `json:"total"`
+	Status    string    `json:"status"`
+	Address   string    `json:"address"`
+	createdAt time.Time `json:"createdAt"`
 }
 
 type OrderItem struct {
-	ID			int			`json:"id"`
-	OrderID		int			`json:"orderID"`
-	ProductID	int			`json:"productID"`
-	Quantity	int			`json:"quantity"`
-	Price		float64		`json:"price"`
-	createdAt	time.Time	`json:"createdAt"`
+	ID        int       `json:"id"`
+	OrderID   int       `json:"orderID"`
+	ProductID int       `json:"productID"`
+	Quantity  int       `json:"quantity"`
+	Price     float64   `json:"price"`
+	createdAt time.Time `json:"createdAt"`
 }
 
 type Product struct {
-	ID				int			`json:"id"`
-	Name			string		`json:"name"`
-	Description 	string 		`json:"description"`
-	Image			string 		`json:"image"`
-	Price 			float64 	`json:"price"`
-	Quantity 		int 		`json:"quantity"`
-	CreatedAt 		time.Time 	`json:"createdAt"`
+	ID          int       `json:"id"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	Image       string    `json:"image"`
+	Price       float64   `json:"price"`
+	Quantity    int       `json:"quantity"`
+	CreatedAt   time.Time `json:"createdAt"`
 }
 
 type User struct {
@@ -63,14 +64,23 @@ type RegisterUserPayload struct {
 }
 
 type LoginUserPayload struct {
-	Email     string `json:"email" validate:"required,email"`
-	Password  string `json:"password" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
 }
 
 type CreateProductPayload struct {
-	Name 			string 		`json:"name" validate:"required"`
-	Description 	string 		`json:"description"`
-	Image			string 		`json:"image"`
-	Price 			float64 	`json:"price" validate:"required"`
-	Quantity 		int 		`json:"quantity" validate:"required"`
+	Name        string  `json:"name" validate:"required"`
+	Description string  `json:"description"`
+	Image       string  `json:"image"`
+	Price       float64 `json:"price" validate:"required"`
+	Quantity    int     `json:"quantity" validate:"required"`
+}
+
+type CartItem struct {
+	ProductID int `json:"productID"`
+	Quantity  int `json:"quantity"`
+}
+
+type CartCheckoutPayload struct {
+	Items []CartItem `json:"items" validate:"required"`
 }
