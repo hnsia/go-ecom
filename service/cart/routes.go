@@ -11,7 +11,7 @@ import (
 )
 
 type Handler struct {
-	store types.OrderStore
+	store        types.OrderStore
 	productStore types.ProductStore
 }
 
@@ -24,6 +24,8 @@ func (h *Handler) RegisterRoutes(router *mux.Router) {
 }
 
 func (h *Handler) handleCheckout(w http.ResponseWriter, r *http.Request) {
+	userID := 0
+
 	var cart types.CartCheckoutPayload
 	if err := utils.ParseJSON(r, &cart); err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
@@ -42,6 +44,12 @@ func (h *Handler) handleCheckout(w http.ResponseWriter, r *http.Request) {
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
 	}
-	
+
 	ps, err := h.productStore.GetProductsByIDs(productIDs)
+	if err != nil {
+		utils.WriteError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	orderID, totalPrice, err := h.createOrder(ps, cart.Items, userID)
 }
