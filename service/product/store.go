@@ -35,7 +35,7 @@ func (s *Store) GetProducts() ([]types.Product, error) {
 	return products, nil
 }
 
-func (s *Store) GetProductsByID(productIDs []int) ([]types.Product, error) {
+func (s *Store) GetProductsByIDs(productIDs []int) ([]types.Product, error) {
 	placeholders := strings.Repeat(",?", len(productIDs)-1)
 	query := fmt.Sprintf("SELECT * FROM products WHERE id IN (?%s)", placeholders)
 
