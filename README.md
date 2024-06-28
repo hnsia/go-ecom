@@ -1,6 +1,6 @@
 # GO-ECOM
 
-This is a simple e-commerce project written in GO that contains common coding conventions in GO.
+This is a simple e-commerce project written in GO that contains common coding conventions in GO. It only contains a REST API server without any front-end.
 
 ## Installation
 
